@@ -1,0 +1,85 @@
+/* App container */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #74ebd5, #acb6e5);
+  color: #333;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.header {
+  background-color: #333;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+/* Game board styling */
+.board {
+  display: grid;
+  gap: 3px;
+  background: #333;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.cell {
+  width: 25px;
+  height: 25px;
+  background: #444;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.cell.snake {
+  background: #4caf50;
+}
+
+.cell.food {
+  background: #ff5722;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+/* Game Over Screen */
+.game-over {
+  text-align: center;
+}
+
+.game-over h2 {
+  font-size: 2rem;
+  color: #e74c3c;
+}
+
+.game-over button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.game-over button:hover {
+  background-color: #45a049;
+}
