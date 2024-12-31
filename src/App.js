@@ -1,16 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './App.css';
-
-const App = () => {
-  const [snake, setSnake] = useState([[10, 10]]);
-  const [food, setFood] = useState([15, 15]);
-  const [direction, setDirection] = useState('RIGHT');
-  const [speed, setSpeed] = useState(200);
-  const [gameOver, setGameOver] = useState(false);
-  const boardSize = 20;
-
-  const gameLoop = useRef();
-
+useEffect(() => {
   const handleKeyDown = (event) => {
     switch (event.key) {
       case 'ArrowUp':
@@ -30,6 +18,11 @@ const App = () => {
     }
   };
 
+  document.addEventListener('keydown', handleKeyDown);
+  return () => document.removeEventListener('keydown', handleKeyDown);
+}, [direction]);
+
+useEffect(() => {
   const moveSnake = () => {
     let newSnake = [...snake];
     let head = newSnake[newSnake.length - 1];
@@ -77,49 +70,8 @@ const App = () => {
     setSnake(newSnake);
   };
 
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [direction]);
-
-  useEffect(() => {
-    if (!gameOver) {
-      gameLoop.current = setInterval(moveSnake, speed);
-      return () => clearInterval(gameLoop.current);
-    }
-  }, [snake, speed, gameOver]);
-
-  return (
-    <div className="container">
-      <header className="header">
-        <h1>Snake Game</h1>
-      </header>
-      {gameOver ? (
-        <div className="game-over">
-          <h2>Game Over!</h2>
-          <button onClick={() => window.location.reload()}>Play Again</button>
-        </div>
-      ) : (
-        <div
-          className="board"
-          style={{ gridTemplateColumns: `repeat(${boardSize}, 1fr)` }}
-        >
-          {Array.from({ length: boardSize * boardSize }, (_, i) => {
-            const x = i % boardSize;
-            const y = Math.floor(i / boardSize);
-            const isSnake = snake.some((segment) => segment[0] === x && segment[1] === y);
-            const isFood = food[0] === x && food[1] === y;
-            return (
-              <div
-                key={i}
-                className={`cell ${isSnake ? 'snake' : ''} ${isFood ? 'food' : ''}`}
-              ></div>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default App;
+  if (!gameOver) {
+    gameLoop.current = setInterval(moveSnake, speed);
+    return () => clearInterval(gameLoop.current);
+  }
+}, [snake, speed, gameOver, direction, food, boardSize]);
